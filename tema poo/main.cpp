@@ -11,7 +11,7 @@ public:
     Nod(char info, Nod *next = NULL)
     {
         this->info = info;
-        this -> next = next;
+        this->next = next;
     }
     friend class Stiva_de_caractere;
 };
@@ -27,23 +27,19 @@ public:
         top = NULL;
     }
 
-  /*  Stiva_de_caractere(const Stiva_de_caractere &stiva)
+    Stiva_de_caractere(const Stiva_de_caractere& stiva)
     {
-        Nod *temp, *aux;
-
-        aux = top;
-
-        while (temp != NULL)
+        Nod *aux;
+        aux = stiva.top;
+        top = NULL;
+        while (aux != NULL)
         {
-
-            temp = new Nod(aux->info, temp);
+            push(aux->info);
             aux = aux->next;
-            cout<<"temp->info"<<endl;
-
         }
+        reverseSir();
 
     }
-*/
     ~Stiva_de_caractere()
     {
         while(!isEmpty())
@@ -67,7 +63,7 @@ public:
             return informatie;
         }
         else
-            return NULL;
+            return (char)NULL;
     }
     bool isEmpty()
     {
@@ -117,7 +113,12 @@ public:
     friend ostream &operator << (ostream &afisare, Stiva_de_caractere &stiva);
     friend istream &operator >> (istream &citire, Stiva_de_caractere &stiva);
     friend Stiva_de_caractere operator -(Stiva_de_caractere stiva1, Stiva_de_caractere stiva2);
-//    friend Stiva_de_caractere operator =(Stiva_de_caractere stiva1);
+
+    Stiva_de_caractere operator =(const Stiva_de_caractere& stiva1)
+    {
+        Stiva_de_caractere temp(stiva1);
+        return temp;
+    }
 };
 
 Stiva_de_caractere operator -(Stiva_de_caractere stiva1, Stiva_de_caractere stiva2)
@@ -138,12 +139,6 @@ Stiva_de_caractere operator -(Stiva_de_caractere stiva1, Stiva_de_caractere stiv
     return temp;
 }
 
-/*Stiva_de_caractere operator =(Stiva_de_caractere stiva1)
-{
-    Stiva_de_caractere temp(stiva1);
-    return temp;
-}
-*/
 ostream &operator <<(ostream &afisare, Stiva_de_caractere &stiva)
 {
     afisare << stiva.afisareStiva() <<endl;
@@ -155,7 +150,7 @@ istream &operator >>(istream &citire, Stiva_de_caractere &stiva)
     char s[nrmax];
     citire.get(s,nrmax);
     for (int i=0; i<strlen(s); i++)
-            stiva.push(s[i]);
+        stiva.push(s[i]);
     return citire;
 }
 
@@ -166,21 +161,25 @@ int main()
     Stiva_de_caractere stiva2;
     cout<<"Introduceti caracterele fara spatiu intre ele: ";
     Stiva_de_caractere diferenta;
+    Stiva_de_caractere stiva3;
     cin>>stiva1;
-    //cout<<stiva1.pop()<<endl;
-    //stiva1.showTop();
+    stiva1.showTop();
 
     stiva2.push('a');
     stiva2.push('b');
     stiva2.push('c');
-    //cout<<stiva2.pop()<<endl;
-    //stiva2.showTop();
-    //stiva1.reverseSir();
-    //stiva2.reverseSir();
+    stiva2.showTop();
+
     cout<<stiva1<<endl;
     cout<<stiva2<<endl;
-    Stiva_de_caractere stiva3 = stiva2;
-    cout<<stiva3<<endl;
+
+    stiva2 = stiva3; //nu merge sa folosesc atribuirea
+
+    cout<<stiva3<<endl; // afiseaza null pentru ca nu merge atribuirea
+    stiva3.reverseSir();
+
+    cout<<stiva2<<endl;
+    cout<<stiva3<<endl; // la fel si aici
     //diferenta = stiva1;
     //cout<<diferenta<<endl;
     return 0;
